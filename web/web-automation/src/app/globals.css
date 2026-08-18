@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+html {
+  height: 100%;
+}
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+pre {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  overflow-x: auto;
+  max-width: 100%;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
