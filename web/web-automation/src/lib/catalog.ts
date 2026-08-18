@@ -67,6 +67,24 @@ export function familiesFrom(packages: readonly PaymentPackage[]): string[] {
   return out;
 }
 
+export function groupPackages(
+  packages: readonly PaymentPackage[],
+): { family: string; items: PaymentPackage[] }[] {
+  const groups = new Map<string, PaymentPackage[]>();
+  const order: string[] = [];
+  for (const item of packages) {
+    const family = item.family || "Packages";
+    let items = groups.get(family);
+    if (!items) {
+      items = [];
+      groups.set(family, items);
+      order.push(family);
+    }
+    items.push(item);
+  }
+  return order.map((family) => ({ family, items: groups.get(family)! }));
+}
+
 export function amountForPaymentCode(
   packages: readonly PaymentPackage[],
   code: string,

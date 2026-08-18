@@ -7,6 +7,22 @@ export type PaymentPackage = {
   family: string;
 };
 
+export type Catalog = {
+  serviceType?: string;
+  currency: string;
+  paymentCodes: readonly PaymentPackage[];
+  amountPresets: readonly string[];
+};
+
+export type CatalogBootstrap = {
+  merchants: string[];
+  authRequired: boolean;
+  configured: boolean;
+  catalog: Catalog;
+  merchantPackages: Record<string, PaymentPackage[]>;
+  error?: string;
+};
+
 export type MerchantSecrets = {
   code: string;
   baseUrl: string;
