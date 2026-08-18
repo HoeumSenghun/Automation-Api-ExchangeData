@@ -1,0 +1,13 @@
+language=en
+
+# Optional. If omitted, Java uses the first merchant in .env.
+# Must match a code from .env merchants=...
+activeMerchant=
+
+# paymentCode and paidAmount live in .env (not committed).
+# Optional overrides for one run:
+# paymentCode=${paymentCode}
+# paidAmount=${paidAmount}
+
+currency=USD
+msisdn=YOUR_CUSTOMER_MSISDN
