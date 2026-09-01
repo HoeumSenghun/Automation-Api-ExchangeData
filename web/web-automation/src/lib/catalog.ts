@@ -8,6 +8,30 @@ export const REF_ID_MAX = 20;
 export const PAYMENT_CODE_MAX = 15;
 export const MSISDN_MAX = 15;
 
+const FAMILY_ORDER = ["OSJA", "MET5G", "SEKSA", "MONTHLY", "Packages"] as const;
+
+/** Infer UI family from DB-style BPN_* package codes when FAMILY is omitted. */
+export function inferPackageFamily(code: string): string {
+  if (code.startsWith("BPN_OSJA")) {
+    return "OSJA";
+  }
+  if (code.startsWith("BPN_MET5G")) {
+    return "MET5G";
+  }
+  if (code.startsWith("BPN_SEKSA")) {
+    return "SEKSA";
+  }
+  if (code.startsWith("BPN_MONTLY")) {
+    return "MONTHLY";
+  }
+  return "Packages";
+}
+
+function familySortKey(family: string): number {
+  const idx = FAMILY_ORDER.indexOf(family as (typeof FAMILY_ORDER)[number]);
+  return idx >= 0 ? idx : FAMILY_ORDER.length;
+}
+
 /**
  * Parse gitignored env catalog.
  * Format (comma-separated): CODE:AMOUNT or CODE:AMOUNT:FAMILY or CODE:AMOUNT:FAMILY:Label
@@ -35,7 +59,7 @@ export function parsePaymentCodes(raw: string | undefined): PaymentPackage[] {
     out.push({
       code,
       amount,
-      family: family || "Packages",
+      family: family || inferPackageFamily(code),
       label: labelParts.length ? labelParts.join(":") : code,
     });
   }
@@ -82,7 +106,13 @@ export function groupPackages(
     }
     items.push(item);
   }
-  return order.map((family) => ({ family, items: groups.get(family)! }));
+  return order
+    .map((family) => ({ family, items: groups.get(family)! }))
+    .sort(
+      (left, right) =>
+        familySortKey(left.family) - familySortKey(right.family) ||
+        left.family.localeCompare(right.family),
+    );
 }
 
 export function amountForPaymentCode(
