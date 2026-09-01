@@ -21,7 +21,7 @@ export function inferPackageFamily(code: string): string {
   if (code.startsWith("BPN_SEKSA")) {
     return "SEKSA";
   }
-  if (code.startsWith("BPN_MONTLY")) {
+  if (code.startsWith("BPN_MONTHLY")) {
     return "MONTHLY";
   }
   return "Packages";
