@@ -2,6 +2,7 @@
 
 import { memo, useCallback, useMemo, useRef, useState, useSyncExternalStore, type ReactNode, type Ref } from "react";
 import { runExchange } from "@/app/actions/run";
+import { LockButton } from "@/components/LockButton";
 import { MSISDN_MAX, PAYMENT_CODE_MAX, REF_ID_MAX, amountPresetsFrom, groupPackages } from "@/lib/catalog";
 import type { CatalogBootstrap, PaymentPackage, RunResponse, StepResult, StopAt } from "@/lib/types";
 
@@ -250,12 +251,17 @@ export function RunConsole({ boot }: { boot: CatalogBootstrap }) {
     <div className="mx-auto grid w-full min-w-0 max-w-6xl gap-4 sm:gap-6 lg:grid-cols-[minmax(0,24rem)_minmax(0,1fr)]">
       <section className="min-w-0 rounded-2xl border border-white/10 bg-slate-900/70 p-4 shadow-xl shadow-black/20 backdrop-blur sm:p-5">
         <div className="mb-4 sm:mb-5">
-          <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-teal-300/80 sm:text-xs">
-            Test console
-          </p>
-          <h1 className="mt-1 text-xl font-semibold tracking-tight text-white sm:text-2xl">
-            ExchangeData Automation
-          </h1>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-teal-300/80 sm:text-xs">
+                Test console
+              </p>
+              <h1 className="mt-1 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+                ExchangeData Automation
+              </h1>
+            </div>
+            <LockButton />
+          </div>
           <p className="mt-2 text-sm leading-6 text-slate-400">
             Pick merchant and package, then run Init → RSA → Confirm (sends refId) → Check.
             Same headers on every step; only the merchant API key changes. Keys stay on the server.
